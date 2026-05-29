@@ -308,25 +308,30 @@
         
 
         // --- 2. ส่วนคำนวณเวลานับถอยหลังตายตัว ---
-        const countdownTarget = new Date("2026-05-31T02:00:00").getTime();
+const countdownTarget = new Date("2026-05-31T02:00:00").getTime();
 
-        const timerInterval = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = countdownTarget - now;
+const timerInterval = setInterval(function() {
+    const now = new Date().getTime();
+    let distance = countdownTarget - now; // เปลี่ยนเป็น let เพื่อให้เปลี่ยนค่าข้างในได้
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // 1. ดักจับทันที ถ้าเวลาหมดหรือเลยตี 2 ไปแล้ว ให้ล็อกค่าไว้ที่ 0 ไม่ให้ติดลบ
+    if (distance <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById("timer").innerHTML = "หมดเวลาเก็บเกียรติยศ!";
+        document.getElementById("timer").style.color = "#e60000";
+        return; // สั่งหยุดการทำงานของรอบนี้ทันที ไม่ต้องไปคำนวณบรรทัดล่างต่อ
+    }
 
-            document.getElementById("timer").innerHTML = days + " วัน " + hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที ";
+    // 2. คำนวณเวลาถอยหลัง (เมื่อหารแล้วใช้ Math.floor ปัดเศษทิ้งทั้งหมด)
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("timer").innerHTML = "หมดเวลาเก็บเกียรติยศ!";
-                document.getElementById("timer").style.color = "#e60000";
-            }
-        }, 1000);
+    // 3. แสดงผลบนหน้าเว็บ
+    document.getElementById("timer").innerHTML = days + " วัน " + hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที ";
+
+}, 1000);
     </script>
 
 </body>
