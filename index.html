@@ -156,7 +156,6 @@
         .rank-up {
             color: #429138;
             font-size: 16px;
-
         }
         .rank-up::before {
             content: "▲ ";
@@ -191,6 +190,13 @@
             margin-left: 5px;
             letter-spacing: 0.5px;
         }
+        
+        .loading-text {
+            color: #000;
+            font-weight: 600;
+            padding: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -217,121 +223,9 @@
                     <th>เกียรติยศ<br>รวมสัปดาห์นี้</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="player-row row-gold">
-                    <td>1</td>
-                    <td>ACHI [SUN.KIZARU77]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>1,008</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>2</td>
-                    <td>TOMI [SUN.FADEDო]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>562</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>3</td>
-                    <td>POOM. [มาเด้(+_+)]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>470</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>4</td>
-                    <td>KHAOPUN [SUN.NOFAIL]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>460</td>
-                </tr>
-
-                <tr class="player-row row-red">
-                    <td>5</td>
-                    <td>TITLE  [oาดุ้ดะึสสิ่]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>350</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>6</td>
-                    <td>TAO [TOTA!†_&]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>50</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>7</td>
-                    <td>SUGUS [MELODYMUSE]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>40</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>8</td>
-                    <td>GAB [.ยำแซลมอน]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>40</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>9</td>
-                    <td>PORSCHE [เอเชีย(รช.)]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>30</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>10</td>
-                    <td>KHAOFANG [SARX_zz]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>30</td>
-                </tr>
-                <tr class="player-row row-red">
-                        <td>11</td>
-                        <td>TAR 14y [SUN.YUNGTAR〤]</td>
-                        <td><span class="rank-no-change">-</span></td>
-                        <td>30</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>12</td>
-                    <td>JUBJANG [น้อนจุ๊บ59!]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>13</td>
-                    <td>PIN [อ้ยปิ่นโดดกบ]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>14</td>
-                    <td>PLAMY [น่องมี้โดดกบ]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>15</td>
-                    <td>FOCUS [我依靠自己999]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>16</td>
-                    <td>NAMKHING [۶ৎ KURUMI ₊]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>17</td>
-                    <td>MAWIN [นช. กอ_ไก่]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>18</td>
-                    <td>LITTLE [ო ┋ T u l i p]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
-                </tr>
-                <tr class="player-row row-red">
-                    <td>19</td>
-                    <td>SUNYA [SUN.OVERLOR]</td>
-                    <td><span class="rank-no-change">-</span></td>
-                    <td>0</td>
+            <tbody id="leaderboard-data">
+                <tr>
+                    <td colspan="4" class="loading-text">กำลังโหลดข้อมูลคะแนนจากระบบ...</td>
                 </tr>
             </tbody>
         </table>
@@ -340,30 +234,97 @@
             ผู้ที่มี #ลา จะไม่ถูกเตะออกจากแคลนในสัปดาห์นี้
         </div>
     </div>
+
     <script>
+        // --- 1. ส่วนดึงข้อมูลจาก Google Sheets (เวอร์ชันแก้มวยตรงล็อกตาราง) ---
+        const SPREADSHEET_ID = '1ODBzFRmzE1FWGyPUhyxVdEkcRmd-PwHxU_MDuWOd41E';
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
+
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                let lines = data.split('\n');
+                let html = '';
+                
+                for (let i = 0; i < lines.length; i++) {
+                    if (!lines[i] || lines[i].trim() === "") continue;
+
+                    // แยกคอลัมน์ด้วยเครื่องหมายคอมมาตรงๆ เพื่อไม่ให้ภาษาไทยเพี้ยน
+                    let row = lines[i].split(',');
+
+                    // ล้างเครื่องหมายอัญประกาศ (") ที่อาจจะแฝงมาจากกูเกิลชีตออกให้หมด
+                    row = row.map(val => val.replace(/"/g, '').trim());
+
+                    if (row.length < 2) continue;
+
+                    let rank = row[0];
+                    let name = row[1];
+                    
+                    // ดักจับ: ถ้าแถวไหนไม่มีชื่อคนจริงๆ ให้ข้าม
+                    if (!name || name === "" || name === "ชื่อ") continue;
+
+                    let diff = 0;
+                    let score = 0;
+
+                    // แก้บั๊กตัวเลขแยกส่วน: เช็คความยาวคอลัมน์ที่แตกออกมา
+                    if (row.length === 4) {
+                        diff = parseInt(row[2]) || 0;
+                        score = parseInt(row[3]) || 0;
+                    } else if (row.length === 5) {
+                        diff = parseInt(row[2]) || 0;
+                        let combinedScore = row[3] + row[4];
+                        score = parseInt(combinedScore) || 0;
+                    } else {
+                        score = parseInt(row[row.length - 1]) || 0;
+                        diff = parseInt(row[row.length - 2]) || 0;
+                    }
+
+                    // เช็คเกณฑ์สีแถว (1000 คะแนนขึ้นไปสีทอง น้อยกว่าสีแดง)
+                    let rowClass = (score >= 1000) ? 'row-gold' : 'row-red';
+
+                    // แสดงผลต่างอันดับ
+                    let diffHtml = '<span>-</span>';
+                    if (diff > 0) {
+                        diffHtml = `<span class="rank-up">${diff}</span>`;
+                    } else if (diff < 0) {
+                        diffHtml = `<span class="rank-down">${Math.abs(diff)}</span>`;
+                    }
+
+                    html += `
+                        <tr class="player-row ${rowClass}">
+                            <td>${rank}</td>
+                            <td>${name}</td>
+                            <td>${diffHtml}</td>
+                            <td>${score.toLocaleString()}</td>
+                        </tr>
+                    `;
+                }
+                document.getElementById('leaderboard-data').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('leaderboard-data').innerHTML = '<tr><td colspan="4" class="loading-text" style="color:red;">โหลดข้อมูลล้มเหลว กรุณาเช็คการตั้งค่าแชร์ลิงก์ของ Google Sheets</td></tr>';
+                console.error(err);
+            });
         
 
-        // แต่ถ้าคุณอยากระบุวันปิดรอบที่แน่นอน ให้ลบ 2 บรรทัดบนออก แล้วใช้บรรทัดล่างนี้แทน (นำเครื่องหมาย // ออก)
+        // --- 2. ส่วนคำนวณเวลานับถอยหลังตายตัว ---
         const countdownTarget = new Date("2026-05-31T00:02:00").getTime();
 
         const timerInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = countdownTarget - now;
 
-            // คำนวณ วัน, ชั่วโมง, นาที, วินาที
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // แสดงผลลัพธ์ในหน้าเว็บตรงช่อง id="timer"
             document.getElementById("timer").innerHTML = days + " วัน " + hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที ";
 
-            // ถ้าเวลาหมดลงแล้ว ให้แสดงข้อความแจ้งเตือนแทน
             if (distance < 0) {
                 clearInterval(timerInterval);
-                document.getElementById("timer").innerHTML = "หมดเวลาเช็คชื่อปิดรอบแล้ว!";
-                document.getElementById("timer").style.color = "#e60000"; // เปลี่ยนตัวหนังสือเป็นสีแดงเมื่อหมดเวลา
+                document.getElementById("timer").innerHTML = "หมดเวลาเก็บเกียรติยศ!";
+                document.getElementById("timer").style.color = "#e60000";
             }
         }, 1000);
     </script>
