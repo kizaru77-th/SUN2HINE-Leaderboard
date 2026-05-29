@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNSHINE Leaderboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #e58e3a;      /* สีพื้นหลังหลักส้มอมน้ำตาล */
+            --gold-row: #f4c26b;      /* สีแถวสำหรับผู้ผ่านเกณฑ์ */
+            --red-row: #e60000;       /* สีแถวสำหรับผู้ไม่ผ่านเกณฑ์ */
+            --text-dark: #000000;
+            --text-light: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif; /* ใช้ฟอนต์ Prompt ทั้งเว็บ */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .leaderboard-container {
+            width: 100%;
+            max-width: 650px;
+            background-color: var(--bg-color);
+            text-align: center;
+        }
+
+        /* --- ส่วนหัวข้อและโลโก้ในแนวนอน --- */
+        .header-section {
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: row;    /* จัดวางแนวนอน */
+            align-items: center;    /* จัดให้อยู่กึ่งกลางแนวตั้งตรงกัน */
+            justify-content: center; /* จัดให้อยู่กลางหน้าจอ */
+            gap: 15px;              /* ระยะห่างระหว่างโลโก้กับตัวหนังสือ */
+            margin-bottom: 10px;
+        }
+
+        .logo-img {
+            width: 70px;            /* ขนาดความกว้างของโลโก้ */
+            height: auto;
+            object-fit: contain;
+        }
+
+        .clan-name {
+            font-size: 32px;        /* ขนาดชื่อแคลน */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .title-main {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 200;
+            line-height: 1.5;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* --- โครงสร้างตาราง --- */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 4px; 
+        }
+
+        /* หัวคอลัมน์ตาราง */
+        .table-header th {
+            font-size: 12px;
+            font-weight: 700;
+            color: #000;
+            padding: 5px;
+            vertical-align: bottom;
+        }
+
+        /* ตกแต่งแถวข้อมูลทั่วไป */
+        .player-row {
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .player-row td {
+            padding: 10px 5px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+
+        /* สไตล์แยกตามสี (ทอง / แดง) */
+        .row-gold {
+            background-color: var(--gold-row);
+            color: var(--text-dark);
+        }
+        
+        .row-red {
+            background-color: var(--red-row);
+            color: var(--text-light);
+        }
+
+        /* เส้นขอบและสัดส่วนความกว้างของแต่ละช่อง */
+        .player-row td:first-child {
+            border-left: 2px solid #000;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            font-weight: 700;
+            width: 12%;
+        }
+        
+        .player-row td:nth-child(2) {
+            text-align: center;
+            width: 58%;
+        }
+
+        .player-row td:nth-child(3) {
+            border-left: 2px solid #000;
+            border-right: 2px solid #000;
+            width: 15%;
+            font-size: 13px;
+        }
+
+        .player-row td:last-child {
+            border-right: 2px solid #000;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            font-weight: 700;
+            width: 15%;
+        }
+
+        /* สัญลักษณ์การเปลี่ยนอันดับ */
+        .rank-up {
+            color: #429138;
+            font-size: 16px;
+
+        }
+        .rank-up::before {
+            content: "▲ ";
+        }
+        
+        .rank-down {
+            color: red;
+            font-size: 16px;
+        }
+        .row-red .rank-down {
+            color: #500000; 
+        }
+        .rank-down::before {
+            content: "▼ ";
+        }
+
+        .rank-no-change {
+            color: inherit;
+        }
+
+        /* ส่วนท้ายตาราง */
+        .footer-note {
+            margin-top: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #000;
+        }
+        #timer {
+            color: #f4c26b;
+            font-weight: 700;
+            font-size: 15px;
+            margin-left: 5px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="leaderboard-container">
+        <div class="countdown-box">
+            ⏱️ เวลาที่เหลือทำเกียรติยศ: <span id="timer">กำลังคำนวณเวลา...</span>
+        </div>
+        <div class="header-section">
+            <div class="logo-wrapper">
+                <img src="SUN2HINE-LOGO.png" style="width: 150px; height: auto !important" alt="LOGO" class="logo-img">
+                <div class="clan-name">SUN2HINE</div>
+            </div>
+            <div class="title-main">ตารางการทำเกียรติยศ สัปดาห์ที่7 วันที่1</div>
+            <div class="subtitle">ลูกแคลนทุกคนต้องทำเกียรติยศอย่างน้อย 1,000 ขึ้นไป หากทำไม่ถึงขออนุญาตเตะออกจากแคลนโดยไม่มีเหตุผลใดๆ มาอ้างทั้งสิ้น</div>
+        </div>
+
+        <table class="leaderboard-table">
+            <thead>
+                <tr class="table-header">
+                    <th>อันดับ</th>
+                    <th>ชื่อ</th>
+                    <th>ผลต่าง<br>อันดับ</th>
+                    <th>เกียรติยศ<br>รวมสัปดาห์นี้</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="player-row row-gold">
+                    <td>1</td>
+                    <td>ACHI [SUN.KIZARU77]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>1,008</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>2</td>
+                    <td>TOMI [SUN.FADEDო]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>562</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>3</td>
+                    <td>POOM. [มาเด้(+_+)]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>470</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>4</td>
+                    <td>KHAOPUN [SUN.NOFAIL]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>460</td>
+                </tr>
+
+                <tr class="player-row row-red">
+                    <td>5</td>
+                    <td>TITLE  [oาดุ้ดะึสสิ่]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>350</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>6</td>
+                    <td>TAO [TOTA!†_&]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>50</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>7</td>
+                    <td>SUGUS [MELODYMUSE]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>40</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>8</td>
+                    <td>GAB [.ยำแซลมอน]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>40</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>9</td>
+                    <td>PORSCHE [เอเชีย(รช.)]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>30</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>10</td>
+                    <td>KHAOFANG [SARX_zz]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>30</td>
+                </tr>
+                <tr class="player-row row-red">
+                        <td>11</td>
+                        <td>TAR 14y [SUN.YUNGTAR〤]</td>
+                        <td><span class="rank-no-change">-</span></td>
+                        <td>30</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>12</td>
+                    <td>JUBJANG [น้อนจุ๊บ59!]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>13</td>
+                    <td>PIN [อ้ยปิ่นโดดกบ]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>14</td>
+                    <td>PLAMY [น่องมี้โดดกบ]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>15</td>
+                    <td>FOCUS [我依靠自己999]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>16</td>
+                    <td>NAMKHING [۶ৎ KURUMI ₊]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>17</td>
+                    <td>MAWIN [นช. กอ_ไก่]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>18</td>
+                    <td>LITTLE [ო ┋ T u l i p]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+                <tr class="player-row row-red">
+                    <td>19</td>
+                    <td>SUNYA [SUN.OVERLOR]</td>
+                    <td><span class="rank-no-change">-</span></td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-note">
+            ผู้ที่มี #ลา จะไม่ถูกเตะออกจากแคลนในสัปดาห์นี้
+        </div>
+    </div>
+    <script>
+        
+
+        // แต่ถ้าคุณอยากระบุวันปิดรอบที่แน่นอน ให้ลบ 2 บรรทัดบนออก แล้วใช้บรรทัดล่างนี้แทน (นำเครื่องหมาย // ออก)
+        const countdownTarget = new Date("2026-05-31T00:02:00").getTime();
+
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownTarget - now;
+
+            // คำนวณ วัน, ชั่วโมง, นาที, วินาที
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // แสดงผลลัพธ์ในหน้าเว็บตรงช่อง id="timer"
+            document.getElementById("timer").innerHTML = days + " วัน " + hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที ";
+
+            // ถ้าเวลาหมดลงแล้ว ให้แสดงข้อความแจ้งเตือนแทน
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById("timer").innerHTML = "หมดเวลาเช็คชื่อปิดรอบแล้ว!";
+                document.getElementById("timer").style.color = "#e60000"; // เปลี่ยนตัวหนังสือเป็นสีแดงเมื่อหมดเวลา
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
