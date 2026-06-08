@@ -210,7 +210,7 @@
                 <img src="SUN2HINE-LOGO.png" style="width: 150px; height: auto !important" alt="LOGO" class="logo-img">
                 <div class="clan-name">SUN2HINE</div>
             </div>
-            <div class="title-main">ตารางการทำเกียรติยศ สัปดาห์ที่8 วันที่7</div>
+            <div class="title-main">ตารางการทำเกียรติยศ สัปดาห์ที่9 วันที่1</div>
             <div class="subtitle">ลูกแคลนทุกคนต้องทำเกียรติยศอย่างน้อย 500 ขึ้นไป หากทำไม่ถึงขออนุญาตเตะออกจากแคลนโดยไม่มีเหตุผลใดๆ มาอ้างทั้งสิ้น</div>
         </div>
 
@@ -279,8 +279,8 @@
                         diff = parseInt(row[row.length - 2]) || 0;
                     }
 
-                    // เช็คเกณฑ์สีแถว (500 คะแนนขึ้นไปสีทอง น้อยกว่าสีแดง)
-                    let rowClass = (score >=500) ? 'row-gold' : 'row-red';
+                    // เช็คเกณฑ์สีแถว (1500 คะแนนขึ้นไปสีทอง น้อยกว่าสีแดง)
+                    let rowClass = (score >=1500) ? 'row-gold' : 'row-red';
 
                     // แสดงผลต่างอันดับ
                     let diffHtml = '<span>-</span>';
@@ -308,7 +308,7 @@
         
 
         // --- 2. ส่วนคำนวณเวลานับถอยหลังตายตัว ---
-const countdownTarget = new Date("2026-06-08T00:00:00").getTime();
+const countdownTarget = new Date("2026-06-15T00:00:00").getTime();
 
 const timerInterval = setInterval(function() {
     const now = new Date().getTime();
